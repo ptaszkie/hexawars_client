@@ -153,7 +153,8 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Jenssegers\Mongodb\MongodbServiceProvider::class, // MongoDB
+        Jenssegers\Mongodb\Auth\PasswordResetServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -188,6 +189,7 @@ return [
         'Crypt' => Illuminate\Support\Facades\Crypt::class,
         'DB' => Illuminate\Support\Facades\DB::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
+        'Moloquent' => Jenssegers\Mongodb\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
