@@ -26,4 +26,17 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    /**
+     * Launch Hexawars client site
+     */
+    public function hexawars()
+    {
+        return view('hexawars');
+    }
+
+    public function welcome()
+    {
+        return view('welcome');
+    }
 }

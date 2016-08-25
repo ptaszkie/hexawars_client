@@ -1,0 +1,80 @@
+html, body, .view{
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    height: 100vh;
+    width: 100vw;
+    color: #eee;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+.view{
+    display: none;
+    box-sizing: border-box;
+}
+
+#lScreen .logo {
+    background-image: url("../images/hexawars.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 40vh;
+    margin: 0 auto;
+}
+
+#lScreen .logo img {
+    width: 50vw;
+    height: 20vh;
+}
+
+#lScreen .spacer{
+    height: 25vh;
+}
+
+#lScreen .info_text{
+    width: 80vw;
+    height: 30px;
+    text-align: center;
+    margin: 0 auto;
+    color: #444;
+}
+
+#lScreen .loadbar{
+    border-radius: 100% 20%;
+    width: 90vw;
+    height: 10px;
+    background: #111;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#lScreen .loadbar .bar{
+    background: orange;
+    height: inherit;
+    width: 20px;
+}
+
+#lobby{
+    background-color: #555555;
+}
+
+#lobby .top-panel{
+    height: 70px;
+    width: 100%;
+    background-color: #843534;
+}
+
+#lobby .core-panel{
+    height: calc(100% - 70px - 3em);
+    width: 100%;
+
+}
+
+#lobby .chat-panel{
+    height: 3em;
+    bottom: 0;
+    width: 100%;
+    background-color: #2b542c;
+}

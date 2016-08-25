@@ -1,12 +1,21 @@
 <?php
 
 namespace App; // this might be just 'App' for you, as I prefer to put it in a folder called models
-use Illuminate\Auth\Authenticatable;
-//use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class User extends Moloquent implements \Illuminate\Contracts\Auth\Authenticatable
+use Moloquent;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+class User extends Moloquent implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
-    use Authenticatable;
+    use Authenticatable, Authorizable, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -14,7 +23,7 @@ class User extends Moloquent implements \Illuminate\Contracts\Auth\Authenticatab
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'lc_name', 'email', 'password',
     ];
 
     /**
