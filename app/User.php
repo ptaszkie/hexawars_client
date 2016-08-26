@@ -35,4 +35,13 @@ class User extends Moloquent implements
         'password', 'remember_token',
     ];
 
+    /**
+     * Check if user is admin.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->admin;
+    }
 }

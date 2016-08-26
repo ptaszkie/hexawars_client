@@ -13,9 +13,28 @@
 
 Route::get('/', 'HomeController@welcome');
 
+Route::auth(); // login & register routes
 
-Route::auth();
+/*
+ * Routes for logged users
+ */
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/id={id}', 'HomeController@hexawars');
 
-Route::get('/home', 'HomeController@index');
+    Route::get('/home', 'HomeController@index');
+});
 
-Route::get('/id={id}', 'HomeController@hexawars');
+/*
+ * //TODO: Routes for admin
+ */
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function() {
+    Route::get('/', 'AdminController@index');
+});
+
+/*
+
+Route::get('/uri-that-users-will-see',
+    ['middleware' => ['auth','admin'], 'as' => 'your-route-name',
+    'uses' => 'YourController@yourMethod']);
+
+*/
