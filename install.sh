@@ -4,130 +4,143 @@
 # REPOS
 ###########################################################
 
-sudo touch /var/www/install_log.txt  &>>/var/www/install_log.txt
-sudo chown &(whoami):&(whoami) /var/www/install_log.txt  &>>/var/www/install_log.txt
+touch ../install_log.txt
+chown $SUDO_USER:$SUDO_USER ../install_log.txt
 
-echo "=== Dodawanie repozytoriow ==="
+printf "=== DODAWANIE REPOZYTORIOW ===\n\n" | tee -a /var/www/install_log.txt
 
 # mongodb
-echo "- mongodb"
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 &>/var/www/install_log.txt
+echo "- mongodb" | tee -a /var/www/install_log.txt
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 &>/var/www/install_log.txt
 echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list &>>/var/www/install_log.txt
 
 # php
-echo "- php"
-sudo add-apt-repository -y ppa:ondrej/php &>>/var/www/install_log.txt
+echo "- php" | tee -a /var/www/install_log.txt
+add-apt-repository -y ppa:ondrej/php &>>/var/www/install_log.txt
 
 # nginx
-echo "- nginx"
-sudo add-apt-repository -y ppa:nginx/stable &>>/var/www/install_log.txt
+echo "- nginx" | tee -a /var/www/install_log.txt
+add-apt-repository -y ppa:nginx/stable &>>/var/www/install_log.txt
 
-echo "- update repozytoriow"
-sudo apt-get update &>>/var/www/install_log.txt
+echo "- update repozytoriow" | tee -a /var/www/install_log.txt
+apt-get update &>>/var/www/install_log.txt
 
 ###########################################################
 # MONGODB
 ###########################################################
 
-echo ""
-echo "=== Instalacja MongoDB ==="
-echo "- installacja"
-sudo apt-get install -y mongodb-org &>>/var/www/install_log.txt
-echo "- start serwisu"
-sudo systemctl enable mongod.service &>>/var/www/install_log.txt
-sudo systemctl start mongod.service &>>/var/www/install_log.txt
+echo "" | tee -a /var/www/install_log.txt
+echo "=== Instalacja MongoDB ===" | tee -a /var/www/install_log.txt
+
+echo "- installacja" | tee -a /var/www/install_log.txt
+apt-get install -y mongodb-org &>>/var/www/install_log.txt
+
+echo "- start serwisu"  | tee -a /var/www/install_log.txt
+systemctl enable mongod.service &>>/var/www/install_log.txt
+systemctl start mongod.service &>>/var/www/install_log.txt
 
 ###########################################################
 # NGINX & PHP7.1
 ###########################################################
-echo ""
-echo "=== Instalacja PHP7.1 ==="
-echo "- instalacja"
-sudo apt-get install -y php7.1-fpm php7.1-mbstring php7.1-mcrypt php7.1-xml php7.1-zip php7.1-dev &>>/var/www/install_log.txt
+echo "" | tee -a /var/www/install_log.txt
+echo "=== Instalacja PHP7.1 ===" | tee -a /var/www/install_log.txt
 
-echo "- poprawka cgi.fix_patchinfo"
-sudo sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.1/fpm/php.ini &>>/var/www/install_log.txt
+echo "- instalacja" | tee -a /var/www/install_log.txt
+apt-get install -y php7.1-fpm php7.1-mbstring php7.1-mcrypt php7.1-xml php7.1-zip php7.1-dev &>>/var/www/install_log.txt
+
+echo "- poprawka cgi.fix_patchinfo" | tee -a /var/www/install_log.txt
+sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.1/fpm/php.ini &>>/var/www/install_log.txt
 
 ###########################################################
 # MONGODB C DRIVER
 ###########################################################
-echo ""
-echo "=== Instalacja MongoDB C Driver ==="
-echo "- pobieranie plikow"
+echo "" | tee -a /var/www/install_log.txt
+echo "=== Instalacja MongoDB C Driver ===" | tee -a /var/www/install_log.txt
+
+echo "- pobieranie plikow" | tee -a /var/www/install_log.txt
 cd ~
 git clone https://github.com/mongodb/mongo-c-driver.git &>>/var/www/install_log.txt
 cd mongo-c-driver
 git checkout 1.4.0 &>>/var/www/install_log.txt
-echo "- generowanie plikow do kompilacji"
+
+echo "- generowanie plikow do kompilacji"  | tee -a /var/www/install_log.txt
 ./autogen.sh --with-libbson=bundled &>>/var/www/install_log.txt
-echo "- kompilacja"
-sudo make &>>/var/www/install_log.txt && \
-echo "- instalacja" && \
-sudo make install &>>/var/www/install_log.txt
-echo "- sprzatanie"
+
+echo "- kompilacja" | tee -a /var/www/install_log.txt
+make &>>/var/www/install_log.txt
+
+echo "- instalacja" | tee -a /var/www/install_log.txt
+make install &>>/var/www/install_log.txt
+
+echo "- sprzatanie" | tee -a /var/www/install_log.txt
 cd ~ 
-sudo rm -rf mongo-c-driver/ &>>/var/www/install_log.txt
+rm -rf mongo-c-driver/ &>>/var/www/install_log.txt
 
 
 ###########################################################
 # MONGODB C++ DRIVER
 ###########################################################
-echo ""
-echo "=== Instalacja MongoDB C++ Driver ==="
+echo "" | tee -a /var/www/install_log.txt
+echo "=== Instalacja MongoDB C++ Driver ===" | tee -a /var/www/install_log.txt
 
-echo "- instalacja cmake"
+echo "- instalacja cmake" | tee -a /var/www/install_log.txt
 cd ~
-sudo apt-get install -y cmake &>>/var/www/install_log.txt
-echo "- pobieranie plikow"
+apt-get install -y cmake &>>/var/www/install_log.txt
+
+echo "- pobieranie plikow" | tee -a /var/www/install_log.txt
 git clone https://github.com/mongodb/mongo-cxx-driver.git &>>/var/www/install_log.txt
 cd mongo-cxx-driver/
 git checkout r3.0.1 &>>/var/www/install_log.txt
 cd build/
-echo "- generowanie plikow do kompilacji"
+
+echo "- generowanie plikow do kompilacji" | tee -a /var/www/install_log.txt
 cmake -DCMAKE_BUILD_TYPE=Release -DLIBMONGOC_DIR=/usr/local -DCMAKE_INSTALL_PREFIX=/usr/local .. &>>/var/www/install_log.txt
-echo "- kompilacja"
-sudo make &>>/var/www/install_log.txt && \
-echo "- instalacja" && \
-sudo make install &>>/var/www/install_log.txt
-echo "- sprzatanie"
+
+echo "- kompilacja" | tee -a /var/www/install_log.txt
+make &>>/var/www/install_log.txt
+
+echo "- instalacja" | tee -a /var/www/install_log.txt
+make install &>>/var/www/install_log.txt
+
+echo "- sprzatanie" | tee -a /var/www/install_log.txt
 cd ~
-sudo rm -rf mongo-cxx-driver/ &>>/var/www/install_log.txt
+rm -rf mongo-cxx-driver/ &>>/var/www/install_log.txt
 
 ###########################################################
 # MONGODB PHP DRIVER
 ###########################################################
-echo ""
-echo "=== Instalacja PHP7 MongoDB Driver ==="
+echo "" | tee -a /var/www/install_log.txt
+echo "=== Instalacja PHP7 MongoDB Driver ===" | tee -a /var/www/install_log.txt
 
-echo "- instalacja"
-sudo pecl channel-update pecl.php.net &>>/var/www/install_log.txt
-sudo pecl install mongodb &>>/var/www/install_log.txt
+echo "- instalacja" | tee -a /var/www/install_log.txt
+pecl channel-update pecl.php.net &>>/var/www/install_log.txt
+pecl install mongodb &>>/var/www/install_log.txt
 
-echo "- aktualizacja konfiguracji php"
-sudo sed -i '$ a extension=mongodb.so' /etc/php/7.1/fpm/php.ini &>>/var/www/install_log.txt
-sudo sed -i '$ a extension=mongodb.so' /etc/php/7.1/cli/php.ini &>>/var/www/install_log.txt
+echo "- aktualizacja konfiguracji php" | tee -a /var/www/install_log.txt
+sed -i '$ a extension=mongodb.so' /etc/php/7.1/fpm/php.ini &>>/var/www/install_log.txt
+sed -i '$ a extension=mongodb.so' /etc/php/7.1/cli/php.ini &>>/var/www/install_log.txt
 
-echo "- restart serwisu php"
-sudo service php7.1-fpm restart &>>/var/www/install_log.txt
+echo "- restart serwisu php" | tee -a /var/www/install_log.txt
+service php7.1-fpm restart &>>/var/www/install_log.txt
 
 ###########################################################
 # NGINX
 ###########################################################
-echo ""
-echo "=== Instalacja serwera nginx ==="
+echo "" | tee -a /var/www/install_log.txt
+echo "=== Instalacja serwera nginx ===" | tee -a /var/www/install_log.txt
 
-echo "- instalacja"
-sudo apt-get install -y nginx &>>/var/www/install_log.txt
+echo "- instalacja" | tee -a /var/www/install_log.txt
+apt-get install -y nginx &>>/var/www/install_log.txt
 
-echo "- nadanie praw folderom i plikom"
-sudo chown -R www-data:www-data /var/www  &>>/var/www/install_log.txt
-sudo chmod -R 775 /var/www  &>>/var/www/install_log.txt
+echo "- nadanie praw folderom i plikom" | tee -a /var/www/install_log.txt
+chown -R www-data:www-data /var/www  &>>/var/www/install_log.txt
+chmod -R 775 /var/www  &>>/var/www/install_log.txt
 cd /var/www
-sudo find ./ -type f -exec chmod 664 {} \;
+find ./ -type f -exec chmod 664 {} \;
 
-echo "- instalacja ustawien serwera"
+echo "- instalacja ustawien serwera" | tee -a /var/www/install_log.txt
 echo "" > hexawars
-sudo sed -i 'a \
+sed -i 'a \
 server { \
     listen 80; \
     listen [::]:80 ipv6only=on; \
@@ -150,42 +163,53 @@ server { \
     }\
 }' hexawars
 
-echo "- dodanie wpisu do /etc/hosts"
-sudo sed -i '$ a 127.0.0.1 hexawars.pl' /etc/php/7.1/cli/php.ini &>>/var/www/install_log.txt
+echo "- dodanie wpisu do /etc/hosts" | tee -a /var/www/install_log.txt
+sed -i '$ a 127.0.0.1 hexawars.pl' /etc/hosts &>>/var/www/install_log.txt
 
 
-sudo mv hexawars /etc/nginx/sites-available/ &>>/var/www/install_log.txt
-sudo ln -s /etc/nginx/sites-available/hexawars /etc/nginx/sites-enabled/hexawars &>>/var/www/install_log.txt
-sudo rm -rf /etc/nginx/sites-enabled/default &>>/var/www/install_log.txt
+mv hexawars /etc/nginx/sites-available/ &>>/var/www/install_log.txt
+ln -s /etc/nginx/sites-available/hexawars /etc/nginx/sites-enabled/hexawars &>>/var/www/install_log.txt
+rm -rf /etc/nginx/sites-enabled/default &>>/var/www/install_log.txt
 
-echo "- przeladowanie serwisu nginx"
-sudo service nginx restart &>>/var/www/install_log.txt
+echo "- przeladowanie serwisu nginx" | tee -a /var/www/install_log.txt
+service nginx restart &>>/var/www/install_log.txt
 
 
 ###########################################################
 # COMPOSER & LARAVEL
 ###########################################################
 
-echo ""
-echo "=== Finalizacja ==="
+echo "" | tee -a /var/www/install_log.txt
+echo "=== Finalizacja ===" | tee -a /var/www/install_log.txt
 
-echo "- instalacja Composer"
+echo "- pobieranie Composer" | tee -a /var/www/install_log.txt
 cd ~
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &>>/var/www/install_log.txt
 echo "- instalacja"
-sudo mkdir bin &>>/var/www/install_log.txt
-sudo php composer-setup.php --install-dir=bin --filename=composer &>>/var/www/install_log.txt
+mkdir bin &>>/var/www/install_log.txt
+php composer-setup.php --install-dir=bin --filename=composer &>>/var/www/install_log.txt
 rm -rf composer-setup.php &>>/var/www/install_log.txt
+chown $SUDO_USER:$SUDO_USER -R bin/ .pearrc .composer 
 
-echo "- instalacja paczek dla laravel"
-cd /var/www/hexawars_client &>>/var/www/install_log.txt
+echo "- instalacja paczek dla laravel" | tee -a /var/www/install_log.txt
+cd /var/www/hexawars_client
 composer install &>>/var/www/install_log.txt
 
-echo "- generowanie klucza"
+echo "- generowanie klucza" | tee -a /var/www/install_log.txt
+cp .env.example .env &>>/var/www/install_log.txt
 php artisan key:generate &>>/var/www/install_log.txt
+
+echo "- naprawa praw plikow" | tee -a /var/www/install_log.txt
+chown -R www-data:www-data /var/www  &>>/var/www/install_log.txt
+chmod -R 775 /var/www  &>>/var/www/install_log.txt
+cd /var/www
+find ./ -type f -exec chmod 664 {} \;
 
 echo ""
 echo "==============================================================="
 echo "Klient gry dostepny pod adresem http://hexawars.pl."
-echo "Przed wejsciem na strone nalezy uruchomic serwer gry."
+echo "Przed wejsciem na strone nalezy uruchomic serwer gry oraz"
+echo "ustawic parametry polaczenia z baza danych w .env"
+echo ""
+echo "Log z instalacja dostepny w /var/www/install_log.txt"
 echo "==============================================================="s

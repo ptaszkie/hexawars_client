@@ -155,6 +155,7 @@ return [
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class, // MongoDB
         Jenssegers\Mongodb\Auth\PasswordResetServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...
