@@ -2,17 +2,18 @@
  * HexaWars Game Client
  *
  * Version v.0.01
- * Created by Quave
- *
+ * Created by Paweł Ptaszkiewicz
  *
  */
 
 var HWARS = (function() {
         "use strict";
-    var _views, _assets, _conn;
+    var _views, _assets, _ws;
 
     /**
      * Widoki w grze obsługiwane przez maszynę stanową. Zawiera całą logikę związaną z przełączaniem między widokami.
+     *
+     * _views.current() - zwraca aktualny stan
      */
     _views = StateMachine.create({
             initial: "init",
@@ -96,6 +97,7 @@ var HWARS = (function() {
                 $("#lScreen").fadeIn(1200, function(){
                     var msgDiv = $("#lScreen .info_text"); /* wypisywanie komunikatow podczas ladowania */
 
+                    // funckja pomocnicza do wypisywania co aktualnie jest robione - dziala tylko podczas inicjalizacji
                     var msg = function(what, err = 0) {
                         var msg = '<span';
                         if(err){
@@ -106,20 +108,30 @@ var HWARS = (function() {
                         msgDiv.html(msg);
                     };
 
+                    // wypisanie komunikatu o ilicjalizacji klienta
                     msg(lang.init);
 
                     /* sprawdzenie wsparcia dla websocket i webgl */
                     if(!_WS_support()){
-                        msg(lang.error.ws, 1);
+                        msg(lang.errors.ws, 1);
                         return;
                     }
-
                     if(!_WebGL_support()){
-                        msg(lang.error.webgl, 1);
+                        msg(lang.errors.webgl, 1);
                         return;
                     }
 
+                    msg(lang.ws.initConn);
 
+                    {
+                        var tmp = window.location.href;
+                        tmp = tmp.slice(tmp.indexOf('=') + 1, tmp.length);
+                        _ws = new WebSocket("ws://localhost:9002?id=" + tmp);
+                    }
+
+                    _ws.onopen = function(){
+                        console.log("polaczony!");
+                    };
 
 
                     msg(lang.loaded);

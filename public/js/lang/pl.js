@@ -12,10 +12,15 @@ var lang = {
     init: "Inicjalizacja...",
     loaded: "Załadowane.",
 
+    ws: {
+        initConn: "Nawiązywanie połączenia z serwerem gry...",
+        getPlayerInfo: "Pobieranie danych gracza..."
 
-    error: {
+    },
+
+    errors: {
         ws: "Twoja przeglądarka nie obsługuje WebSocket.",
-        ws_conn: "Nie można nawiązać połączenia z serwerem gry.",
+        wcConn: "Nie można nawiązać kontaktu z serwerem gry...",
 
         webgl: "Twoja przeglądarka nie obsługuje WebGL."
     }

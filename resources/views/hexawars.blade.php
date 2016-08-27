@@ -40,6 +40,8 @@
     /* wczytanie skryptow, nie wyglada to ladnie, ale to wina ograniczen biblioteki :/ */
     window._lload("js/lib/js-state-machine.js", function(){
         window._lload("js/lib/jquerry-3.0.0.js", function() {
+
+            //TODO: obsluga innych jezykow
             window._lload("js/lang/pl.js", function () {
                 window._lload("js/main.js", function () {
                     HWARS.init();
