@@ -33,20 +33,14 @@
 <noscript>Twoja przeglądarka nie wspiera javascript, wymaganego do działania gry Hexawars.</noscript>
 </body>
 
-<script src="js/lib/little-loader.js"></script>
-
+<!-- SCRIPTS -->
+<script src="js/lib/js-state-machine.js"></script>
+<script src="js/lib/jquerry-3.0.0.js"></script>
+<script src="js/lang/pl.js"></script>
+<script src="js/hexawars.js"></script>
 <script>
-    var ll = "../games/hexawars/js/";
-    /* wczytanie skryptow, nie wyglada to ladnie, ale to wina ograniczen biblioteki :/ */
-    window._lload("js/lib/js-state-machine.js", function(){
-        window._lload("js/lib/jquerry-3.0.0.js", function() {
-
-            //TODO: obsluga innych jezykow
-            window._lload("js/lang/pl.js", function () {
-                window._lload("js/main.js", function () {
-                    HWARS.init();
-                });
-            });
-        });
-    });
+    window.addEventListener('load', function () {
+        window.game = new Hexawars();
+        game.init();
+    }, false);
 </script>
